@@ -18,9 +18,9 @@ namespace Models
 
         public string PreferredName { get; set; }
 
-    //    public string EmailAddress { get; set;}
+        public string EmailAddress { get; set;}
 
-        public JobTitle JobTitle { get; set; }
+        public string JobTitleId { get; set; }
 
         public Office Office { get; set; }
 

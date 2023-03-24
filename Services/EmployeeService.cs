@@ -16,38 +16,44 @@ namespace Services
         {
             _employeeRepository = employeeRepository;
         }
-
-        public Employee AddEmployee(Employee employee)
+        public async Task<Employee> AddEmployee(Employee employee)
         {
            // employee.PreferredName = employee.FirstName +" "+ employee.LastName;
 
-           return _employeeRepository.Add(employee);
+           return await _employeeRepository.Add(employee);
         }
         
-        public Employee DeleteEmployee(int employeeId)
+        public async Task<Employee> DeleteEmployee(int employeeId)
         {
-            return _employeeRepository.DeleteById(employeeId);
+
+            List<Employee> employees = await _employeeRepository.GetAll();
+            Employee employee = employees.FirstOrDefault(e => e.Id == employeeId);
+            if (employee != null)
+            {
+                _employeeRepository.Update(employee);
+               
+            }
+            return employee;
         }
 
-        public Employee UpdateEmployee(Employee employeeChanges)
+        public async Task<Employee> UpdateEmployee(Employee employeeChanges)
         {
-          List<Employee> employees= _employeeRepository.GetAll();
+          List<Employee> employees= await _employeeRepository.GetAll();
            Employee employee= employees.FirstOrDefault(e => e.Id == employeeChanges.Id);
             if (employee != null)
             {
                 _employeeRepository.Update(employeeChanges);
-                return employeeChanges;
             }
             return employee;
         }
-        public Employee GetEmployeeById(int id)
+        public async Task<Employee> GetEmployeeById(int id)
         {
-            return _employeeRepository.GetById(id);
+            return await _employeeRepository.GetById(id);
         }
 
-        public List<Employee> GetAllEmployees()
+        public async Task<List<Employee>> GetAllEmployees()
         {
-            return _employeeRepository.GetAll();
+            return await _employeeRepository.GetAll();
         }
     }
 }

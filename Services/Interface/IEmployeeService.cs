@@ -11,10 +11,10 @@ namespace Services.Interface
 {
     public interface IEmployeeService
     {
-        public Employee AddEmployee(Employee employee);
-        public Employee GetEmployeeById(int id);
-        public List<Employee> GetAllEmployees();
-        public Employee UpdateEmployee(Employee employee);
-        public Employee DeleteEmployee(int employee);
+        public  Task<Employee> AddEmployee(Employee employee);
+        public Task<Employee>GetEmployeeById(int id);
+        public Task<List<Employee>> GetAllEmployees();
+        public Task<Employee> UpdateEmployee(Employee employee);
+        public Task<Employee> DeleteEmployee(int employee);
     }
 }

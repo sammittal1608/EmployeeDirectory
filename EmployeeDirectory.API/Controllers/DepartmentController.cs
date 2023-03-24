@@ -11,16 +11,16 @@ namespace EmployeeDirectory.API.Controllers
     [ApiController]
     public class DepartmentController : ControllerBase
     {
-        private IDepartmentService _departmentService;
+        private readonly IDepartmentService _departmentService;
         public DepartmentController(IDepartmentService departmentService)
         {
             _departmentService = departmentService;
         }
 
         [HttpGet("{DepartmentId}")]
-        public ActionResult<Department> Get(int DepartmentId)
+        public async Task<ActionResult<Department>> Get(int DepartmentId)
         {
-            var department = _departmentService.GetDepartmentById(DepartmentId);
+            var department = await _departmentService.GetDepartmentById(DepartmentId);
             if (department == null)
             {
                 return NotFound();
@@ -29,17 +29,17 @@ namespace EmployeeDirectory.API.Controllers
         }
 
         [HttpGet("")]
-        public ActionResult<IEnumerable<Department>> GetAll()
+        public async Task<ActionResult<IEnumerable<Department>>> GetAll()
         {
-            var departments = _departmentService.GetAllDepartments();
+            var departments = await _departmentService.GetAllDepartments();
             return Ok(departments);
         }
 
         [HttpPost("")]
-        public ActionResult<Department> Add(Department department)
+        public async Task<ActionResult<Department>> Add(Department department)
         {
-          return _departmentService.AddDepartment(department);
-           // return CreatedAtAction(nameof(Get), new { DepartmentId = department.Id }, department);
+            var addedDepartment = await _departmentService.AddDepartment(department);
+            return CreatedAtAction(nameof(Get), new { DepartmentId = addedDepartment.Id }, addedDepartment);
         }
     }
 }

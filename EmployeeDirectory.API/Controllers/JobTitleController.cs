@@ -5,6 +5,7 @@ using Repository;
 using Repository.Interface;
 using Services;
 using Services.Interface;
+using System.Threading.Tasks;
 
 namespace EmployeeDirectory.API.Controllers
 {
@@ -12,37 +13,36 @@ namespace EmployeeDirectory.API.Controllers
     [ApiController]
     public class JobTitleController : ControllerBase
     {
-        IJobTitleService _jobTitleService;
+        private readonly IJobTitleService _jobTitleService;
+
         public JobTitleController(IJobTitleService jobTitleService)
         {
             _jobTitleService = jobTitleService;
         }
 
         [HttpGet("{JobTitleId}")]
-        public ActionResult<JobTitle> Get(int JobTitleId)
+        public async Task<ActionResult<JobTitle>> Get(int JobTitleId)
         {
-            var JobTitle = _jobTitleService.GetJobTitleById(JobTitleId);
-            if (JobTitle == null)
+            var jobTitle = await _jobTitleService.GetJobTitleById(JobTitleId);
+            if (jobTitle == null)
             {
                 return NotFound();
             }
-            return Ok(JobTitle);
-        }
-
-        [HttpGet("")]
-        public ActionResult<IEnumerable<JobTitle>> GetAll()
-        {
-
-            var jobTitle = _jobTitleService.GetAllJobTitles();
             return Ok(jobTitle);
         }
 
-        [HttpPost("")]
-        public ActionResult<JobTitle> Add(JobTitle jobTitle)
+        [HttpGet("")]
+        public async Task<ActionResult<IEnumerable<JobTitle>>> GetAll()
         {
-           return _jobTitleService.AddJobTitle(jobTitle);
-           // return CreatedAtAction(nameof(Get), new { JobTitleId = jobTitle.Id }, jobTitle);
+            var jobTitles = await _jobTitleService.GetAllJobTitles();
+            return Ok(jobTitles);
         }
 
-    }   
+        [HttpPost("")]
+        public async Task<ActionResult<JobTitle>> Add(JobTitle jobTitle)
+        {
+             await _jobTitleService.AddJobTitle(jobTitle);
+             return CreatedAtAction(nameof(Get), new { JobTitleId = jobTitle.Id }, jobTitle);
+        }
+    }
 }

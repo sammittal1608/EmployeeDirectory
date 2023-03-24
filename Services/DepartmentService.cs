@@ -17,18 +17,17 @@ namespace Services
         {
             _departmentRepository= departmentRepository;
         }
-       
-        public Department AddDepartment(Department department)
+        public async Task<Department> AddDepartment(Department department)
         {
-            return _departmentRepository.Add(department);
+            return await _departmentRepository.Add(department);
         }
-        public Department GetDepartmentById(int id)
+        public async Task<Department> GetDepartmentById(int id)
         {
-            return _departmentRepository.GetById(id);
+            return await _departmentRepository.GetById(id);
         }
-        public List<Department> GetAllDepartments()
+        public async Task<List<Department>> GetAllDepartments()
         {
-            return _departmentRepository.GetAll();
+            return await _departmentRepository.GetAll();
         }
     }
 }

@@ -9,9 +9,9 @@ namespace Services.Interface
 {
     public interface IJobTitleService
     {
-        public JobTitle AddJobTitle(JobTitle jobTitle);
-        public List<JobTitle> GetAllJobTitles();
-        public JobTitle GetJobTitleById(int id);
+        public Task<JobTitle> AddJobTitle(JobTitle jobTitle);
+        public Task<List<JobTitle>> GetAllJobTitles();
+        public Task<JobTitle> GetJobTitleById(int id);
 
     }
 }

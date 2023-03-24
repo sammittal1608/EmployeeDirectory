@@ -10,21 +10,21 @@ namespace Repository
         {
             this.dbContext = dbContext;
         }
-        public Department Add(Department department)
+        public async Task<Department> Add(Department department)
         {
-            dbContext.Departments.Add(department);
+            await dbContext.Departments.AddAsync(department);
             dbContext.SaveChanges();
             return department;
         }
 
-        public List<Department> GetAll()
+        public async Task<List<Department>> GetAll()
         {
             return dbContext.Departments.ToList();
         }
 
-        public Department GetById(int DepartmentId)
+        public async Task<Department> GetById(int DepartmentId)
         {
-            Department department = dbContext.Departments.Find(DepartmentId);
+            Department department = await dbContext.Departments.FindAsync(DepartmentId);
             if(department != null)
             {
                 return department;

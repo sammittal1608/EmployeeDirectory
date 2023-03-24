@@ -13,21 +13,21 @@ namespace Services
     public class JobTitleService : IJobTitleService
     {
         IJobTitleRepository _jobTitleRepository;
-        public JobTitleService(IJobTitleRepository jobTitleRepository)
+        public JobTitleService (IJobTitleRepository jobTitleRepository)
         {
             _jobTitleRepository = jobTitleRepository;
         }
-        public JobTitle AddJobTitle(JobTitle jobTitle)
+        public async Task<JobTitle> AddJobTitle(JobTitle jobTitle)
         {
-           return _jobTitleRepository.Add(jobTitle);
+           return await _jobTitleRepository.Add(jobTitle);
         }
-        public List<JobTitle> GetAllJobTitles()
+        public async Task<List<JobTitle>>  GetAllJobTitles()
         {
-          return _jobTitleRepository.GetAll();
+          return await _jobTitleRepository.GetAll();
         }
-        public JobTitle GetJobTitleById(int id)
+        public async Task<JobTitle> GetJobTitleById(int id)
         {
-           return _jobTitleRepository.GetById(id);
+           return await _jobTitleRepository.GetById(id);
         }
     }
 }

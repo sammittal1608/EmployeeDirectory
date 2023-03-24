@@ -15,18 +15,17 @@ namespace Repository
         {
             this.dbContext = dbContext;
         }
-        public JobTitle Add(JobTitle jobTitle)
+        public async Task<JobTitle> Add(JobTitle jobTitle)
         {
             dbContext.JobTitles.Add(jobTitle);
             dbContext.SaveChanges();
             return jobTitle;
         }
-
-        public List<JobTitle> GetAll()
+        public async Task<List<JobTitle>> GetAll()
         {
             return dbContext.JobTitles.ToList();
         }
-        public JobTitle GetById(int jobTitleId)
+        public async Task<JobTitle> GetById(int jobTitleId)
         {
             return dbContext.JobTitles.Find(jobTitleId);
         }

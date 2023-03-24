@@ -10,16 +10,16 @@ namespace Repository
         {
             dbContext = _dbContext;
         }
-        public Employee Add(Employee employee)
+        public async Task<Employee> Add(Employee employee)
         {
-            dbContext.Employees.Add(employee);
+            await dbContext.Employees.AddAsync(employee);
             dbContext.SaveChanges();
             return employee;
         }
 
-        public Employee DeleteById(int EmployeeId)
+        public async Task<Employee> DeleteById(int EmployeeId)
         {
-            var employee = dbContext.Employees.Find(EmployeeId);
+            var employee = await dbContext.Employees.FindAsync(EmployeeId);
             if(employee != null)
             {
                 dbContext.Remove(employee);
@@ -28,16 +28,16 @@ namespace Repository
             }
             return employee;
         }
-        public List<Employee> GetAll()
+        public async Task<List<Employee>> GetAll()
         {
-            return dbContext.Employees.ToList();
+            return  dbContext.Employees.ToList();
         }
 
-        public Employee GetById(int EmployeedId)
+        public async Task<Employee> GetById(int EmployeedId)
         {
-          return dbContext.Employees.Find(EmployeedId);    
+          return await dbContext.Employees.FindAsync(EmployeedId);    
         }
-        public Employee Update(Employee employeeChanges)
+        public async Task<Employee> Update(Employee employeeChanges)
         {
             var employee = dbContext.Employees.Attach(employeeChanges);
             employee.State = Microsoft.EntityFrameworkCore.EntityState.Modified;

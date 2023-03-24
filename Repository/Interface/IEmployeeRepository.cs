@@ -9,10 +9,10 @@ namespace Repository.Interface
 {
     public interface IEmployeeRepository
     {
-        public Employee Add(Employee employee);
-        public  Employee Update(Employee employee);
-        public Employee GetById(int EmployeedId);
-        public List<Employee> GetAll();
-        public Employee DeleteById(int EmployeeId);
+        public Task<Employee> Add(Employee employee);
+        public Task<Employee> Update(Employee employee);
+        public Task<Employee> GetById(int EmployeedId);
+        public Task<List<Employee>> GetAll();
+        public Task<Employee> DeleteById(int EmployeeId);
     }
 }

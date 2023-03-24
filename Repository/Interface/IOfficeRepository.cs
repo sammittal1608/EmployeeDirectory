@@ -9,8 +9,8 @@ namespace Repository.Interface
 {
     public interface IOfficeRepository
     {
-        public Office Add(Office office);
-        public Office GetById(int OfficeId);
-        public List<Office> GetAll();
+        public Task<Office> Add(Office office);
+        public Task<Office> GetById(int OfficeId);
+        public Task<List<Office>> GetAll();
     }
 }

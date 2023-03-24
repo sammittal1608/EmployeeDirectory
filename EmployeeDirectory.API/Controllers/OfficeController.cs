@@ -12,16 +12,17 @@ namespace EmployeeDirectory.API.Controllers
     [ApiController]
     public class OfficeController : ControllerBase
     {
-        IOfficeService _officeService;
+        private readonly IOfficeService _officeService;
+
         public OfficeController(IOfficeService officeService)
         {
             _officeService = officeService;
         }
 
         [HttpGet("{OfficeId}")]
-        public ActionResult<Office> Get(int OfficeId)
+        public async Task<ActionResult<Office>> Get(int OfficeId)
         {
-            var office = _officeService.GetOfficeById(OfficeId);
+            var office = await _officeService.GetOfficeById(OfficeId);
             if (office == null)
             {
                 return NotFound();
@@ -30,18 +31,17 @@ namespace EmployeeDirectory.API.Controllers
         }
 
         [HttpGet("")]
-        public ActionResult<IEnumerable<Office>> GetAll()
+        public async Task<ActionResult<IEnumerable<Office>>> GetAll()
         {
-
-            var office = _officeService.GetAllOffices();
+            var office = await _officeService.GetAllOffices();
             return Ok(office);
         }
 
         [HttpPost("")]
-        public ActionResult<Office> Add(Office office)
+        public async Task<ActionResult<Office>> Add(Office office)
         {
-           return _officeService.AddOffice(office);
-           // return CreatedAtAction(nameof(Get), new { OfficeId = office.Id }, office);
+               await _officeService.AddOffice(office);
+             return CreatedAtAction(nameof(Get), new { OfficeId = office.Id }, office);
         }
 
     }

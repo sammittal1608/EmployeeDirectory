@@ -17,17 +17,17 @@ namespace Repository
             this.dbContext = dbContext;
         }
 
-        public Office Add(Office office)
+        public async Task<Office> Add(Office office)
         {
             dbContext.Offices.Add(office);
             dbContext.SaveChanges();
             return office;
         }
-        public List<Office> GetAll()
+        public async Task<List<Office>> GetAll()
         {
             return dbContext.Offices.ToList();
         }
-        public Office GetById(int office)
+        public async Task<Office> GetById(int office)
         {
             return dbContext.Offices.Find(office);
         }

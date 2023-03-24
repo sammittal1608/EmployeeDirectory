@@ -16,19 +16,19 @@ namespace Services
         {
             _OfficeRepository = officeRepository;
         }
-        public Office AddOffice(Office office)
+        public async Task<Office> AddOffice(Office office)
         {
-           return _OfficeRepository.Add(office);
+           return await _OfficeRepository.Add(office);
         }
 
-        public List<Office> GetAllOffices()
+        public async Task<List<Office>> GetAllOffices()
         {
-           return _OfficeRepository.GetAll();
+           return await _OfficeRepository.GetAll();
         }
 
-        public Office GetOfficeById(int id)
+        public async Task<Office> GetOfficeById(int id)
         {
-          return _OfficeRepository.GetById(id);
+          return await _OfficeRepository.GetById(id);
         }
     }
 }

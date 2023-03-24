@@ -4,6 +4,8 @@ using Models;
 using Repository.Interface;
 using Services;
 using Services.Interface;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EmployeeDirectory.API.Controllers
 {
@@ -18,9 +20,9 @@ namespace EmployeeDirectory.API.Controllers
         }
 
         [HttpGet("{EmployeeId}")]
-        public ActionResult<Employee> Get(int EmployeeId)
+        public async Task<ActionResult<Employee>> Get(int EmployeeId)
         {
-            var employee = _employeeService.GetEmployeeById(EmployeeId);
+            var employee = await _employeeService.GetEmployeeById(EmployeeId);
             if (employee == null)
             {
                 return NotFound();
@@ -29,39 +31,39 @@ namespace EmployeeDirectory.API.Controllers
         }
 
         [HttpGet("")]
-        public ActionResult<IEnumerable<Employee>> GetAll()
+        public async Task<ActionResult<IEnumerable<Employee>>> GetAll()
         {
-            var employees = _employeeService.GetAllEmployees();
+            var employees = await _employeeService.GetAllEmployees();
             return Ok(employees);
         }
 
         [HttpPost("")]
-        public ActionResult<Employee> Add(Employee employee)
+        public async Task<ActionResult<Employee>> Add(Employee employee)
         {
-           return _employeeService.AddEmployee(employee);
-        //    return CreatedAtAction(nameof(Get), new { EmployeeId = employee.Id }, employee);
+            var addedEmployee =  _employeeService.AddEmployee(employee);
+            return CreatedAtAction(nameof(Get), new { EmployeeId = addedEmployee.Id }, addedEmployee);
         }
 
         [HttpPut("{EmployeeId}")]
-        public ActionResult<Employee> Update(Employee employee)
+        public async Task<ActionResult<Employee>> Update(int EmployeeId, Employee employee)
         {
-            var existingEmployee = _employeeService.UpdateEmployee(employee);
+            var existingEmployee = await _employeeService.GetEmployeeById(EmployeeId);
             if (existingEmployee == null)
             {
                 return NotFound();
             }
-            return employee;
+            var updatedEmployee = await _employeeService.UpdateEmployee(employee);
+            return updatedEmployee;
         }
 
         [HttpDelete("{EmployeeId}")]
-        public ActionResult<Employee> Delete(int EmployeeId)
+        public async Task<ActionResult<Employee>> Delete(int EmployeeId)
         {
-            var existingEmployee = _employeeService.GetEmployeeById(EmployeeId);
+            var existingEmployee = await _employeeService.DeleteEmployee(EmployeeId);
             if (existingEmployee == null)
             {
                 return NotFound();
             }
-            _employeeService.DeleteEmployee(EmployeeId);
             return existingEmployee;
         }
     }

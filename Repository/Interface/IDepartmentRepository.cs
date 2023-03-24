@@ -10,8 +10,9 @@ namespace Repository.Interface
 {
     public interface IDepartmentRepository
     {
-        public Department Add(Department department);
-        public Department GetById(int DepartmentId);
-        public List<Department> GetAll();
+        public Task<Department> Add(Department department);
+        public Task<Department> GetById(int DepartmentId);
+
+        public Task<List<Department>> GetAll();
     }
 }

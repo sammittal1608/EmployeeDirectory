@@ -9,8 +9,8 @@ namespace Repository.Interface
 {
     public interface IJobTitleRepository
     {
-        public JobTitle Add(JobTitle jobTitle);
-        public JobTitle GetById(int JobTitleId);
-        public List<JobTitle> GetAll();
+        public Task<JobTitle> Add(JobTitle jobTitle);
+        public Task<JobTitle> GetById(int JobTitleId);
+        public Task<List<JobTitle>> GetAll();
     }
 }
