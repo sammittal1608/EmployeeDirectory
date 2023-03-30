@@ -1,4 +1,6 @@
-﻿using Models;
+﻿using AutoMapper;
+using Models;
+using Models.DBModels;
 using Repository.Interface;
 
 namespace Repository
@@ -10,25 +12,25 @@ namespace Repository
         {
             this.dbContext = dbContext;
         }
-        public async Task<Department> Add(Department department)
+        public async Task<DBDepartment> Add(DBDepartment dbDepartment)
         {
-            await dbContext.Departments.AddAsync(department);
+            await dbContext.Departments.AddAsync(dbDepartment);
             dbContext.SaveChanges();
-            return department;
+            return  dbDepartment;
         }
 
-        public async Task<List<Department>> GetAll()
+        public async Task<List<DBDepartment>> GetAll()
         {
-            return dbContext.Departments.ToList();
+            List<DBDepartment> dbDepartments = dbContext.Departments.ToList();
+            
+            return dbDepartments;
         }
 
-        public async Task<Department> GetById(int DepartmentId)
+        public async Task<DBDepartment> GetById(int DepartmentId)
         {
-            Department department = await dbContext.Departments.FindAsync(DepartmentId);
-            if(department != null)
-            {
-                return department;
-            }return department;
+            DBDepartment dbDepartment = await dbContext.Departments.FindAsync(DepartmentId);
+           
+            return dbDepartment;    
         }
     }
 }

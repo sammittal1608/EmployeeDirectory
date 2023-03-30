@@ -1,4 +1,6 @@
-﻿using Models;
+﻿using AutoMapper;
+using Models;
+using Models.DBModels;
 using Repository.Interface;
 
 namespace Repository
@@ -6,43 +8,52 @@ namespace Repository
     public class EmployeeRepository : IEmployeeRepository
     {
         private AppDbContext dbContext;
-        public EmployeeRepository(AppDbContext _dbContext)
+        IMapper _mapper;
+        public EmployeeRepository(AppDbContext _dbContext,IMapper mapper)
         {
             dbContext = _dbContext;
+            _mapper = mapper;
         }
-        public async Task<Employee> Add(Employee employee)
+        public async Task<DBEmployee> Add(DBEmployee dbEmployee)
         {
-            await dbContext.Employees.AddAsync(employee);
+
+            await dbContext.Employees.AddAsync(dbEmployee);
             dbContext.SaveChanges();
-            return employee;
+
+            return dbEmployee;
         }
 
-        public async Task<Employee> DeleteById(int EmployeeId)
+        public async Task<DBEmployee> DeleteById(DBEmployee dbEmployee)
         {
-            var employee = await dbContext.Employees.FindAsync(EmployeeId);
-            if(employee != null)
+            var DbEmployee = await dbContext.Employees.FindAsync(dbEmployee);
+            if(DbEmployee != null)
             {
-                dbContext.Remove(employee);
+                dbContext.Remove(DbEmployee);
                 dbContext.SaveChanges();
                 
             }
-            return employee;
+
+            return dbEmployee;
         }
-        public async Task<List<Employee>> GetAll()
+        public async Task<List<DBEmployee>> GetAll()
         {
-            return  dbContext.Employees.ToList();
+              List<DBEmployee> dbEmployees= dbContext.Employees.ToList();
+
+            return dbEmployees;
         }
 
-        public async Task<Employee> GetById(int EmployeedId)
+        public async Task<DBEmployee> GetById(int EmployeedId)
         {
-          return await dbContext.Employees.FindAsync(EmployeedId);    
+            DBEmployee dbEmployee = await dbContext.Employees.FindAsync(EmployeedId);
+            
+            return dbEmployee;
         }
-        public async Task<Employee> Update(Employee employeeChanges)
+        public async Task<DBEmployee> Update(DBEmployee dbemployeeChanges)
         {
-            var employee = dbContext.Employees.Attach(employeeChanges);
-            employee.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var dbEmployee =  dbContext.Employees.Attach(dbemployeeChanges);
+           dbEmployee.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             dbContext.SaveChanges();
-            return employeeChanges;
+            return dbemployeeChanges;
         }
     }
 }

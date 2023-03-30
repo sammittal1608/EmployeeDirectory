@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Models;
+using Models.DBModels;
 using Repository.Interface;
 using System;
 using System.Collections.Generic;
@@ -12,24 +14,32 @@ namespace Repository
     public class OfficeRepository : IOfficeRepository
     {
         private readonly AppDbContext dbContext;
-        public OfficeRepository(AppDbContext dbContext)
+        IMapper _mapper;
+        public OfficeRepository(AppDbContext dbContext,IMapper mapper)
         {
             this.dbContext = dbContext;
+            _mapper = mapper;
         }
 
-        public async Task<Office> Add(Office office)
+        public async Task<DBOffice> Add(DBOffice dbOffice)
         {
-            dbContext.Offices.Add(office);
+            dbContext.Offices.Add(dbOffice);
             dbContext.SaveChanges();
-            return office;
+
+            return dbOffice;
         }
-        public async Task<List<Office>> GetAll()
+        public async Task<List<DBOffice>> GetAll()
         {
-            return dbContext.Offices.ToList();
+               List<DBOffice> dbOffices =dbContext.Offices.ToList();
+            
+            return dbOffices;
         }
-        public async Task<Office> GetById(int office)
+        public async Task<DBOffice> GetById(int officeId)
         {
-            return dbContext.Offices.Find(office);
+
+                DBOffice dbOffice = dbContext.Offices.Find(officeId);
+          
+            return dbOffice;
         }
     }
 }

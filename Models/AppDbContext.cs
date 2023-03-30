@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Models.DBModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,9 @@ namespace Models
         {
 
         }
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Office> Offices { get; set; }
-        public DbSet<JobTitle> JobTitles { get; set; }
+        public DbSet<DBEmployee> Employees { get; set; }
+        public DbSet<DBDepartment> Departments { get; set; }
+        public DbSet<DBOffice> Offices { get; set; }
+        public DbSet<DBJobTitle> JobTitles { get; set; }
     }
 }

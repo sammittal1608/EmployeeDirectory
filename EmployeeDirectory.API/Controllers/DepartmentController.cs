@@ -4,6 +4,7 @@ using Repository.Interface;
 using Services;
 using Services.Interface;
 using Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeDirectory.API.Controllers
 {
@@ -34,12 +35,12 @@ namespace EmployeeDirectory.API.Controllers
             var departments = await _departmentService.GetAllDepartments();
             return Ok(departments);
         }
-
+        [Authorize]
         [HttpPost("")]
         public async Task<ActionResult<Department>> Add(Department department)
         {
             var addedDepartment = await _departmentService.AddDepartment(department);
-            return CreatedAtAction(nameof(Get), new { DepartmentId = addedDepartment.Id }, addedDepartment);
+            return addedDepartment;
         }
     }
 }

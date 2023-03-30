@@ -1,4 +1,7 @@
-﻿using Models;
+﻿using AutoMapper;
+using Models;
+using Models.DBModels;
+using Repository;
 using Repository.Interface;
 using Services.Interface;
 using System;
@@ -11,24 +14,34 @@ namespace Services
 {
     public class OfficeService : IOfficeService
     {
-        IOfficeRepository _OfficeRepository;
-        public OfficeService(IOfficeRepository officeRepository)
+        IOfficeRepository _officeRepository;
+        IMapper _mapper;
+        public OfficeService(IOfficeRepository officeRepository,IMapper mapper)
         {
-            _OfficeRepository = officeRepository;
+            _officeRepository = officeRepository;
+            _mapper = mapper;
         }
         public async Task<Office> AddOffice(Office office)
         {
-           return await _OfficeRepository.Add(office);
+            var dbOffice = _mapper.Map<DBOffice>(office);
+                dbOffice = await _officeRepository.Add(dbOffice);
+             office = _mapper.Map<Office>(dbOffice);
+            return office;
         }
 
         public async Task<List<Office>> GetAllOffices()
         {
-           return await _OfficeRepository.GetAll();
+            List<DBOffice> dbOffices = await _officeRepository.GetAll();
+            var offices = dbOffices.Select(dbOffice => _mapper.Map<Office>(dbOffice)).ToList();
+            return offices;
         }
+
 
         public async Task<Office> GetOfficeById(int id)
         {
-          return await _OfficeRepository.GetById(id);
+                DBOffice dbOffice =await _officeRepository.GetById(id);
+            var office = _mapper.Map<Office>(dbOffice);
+            return office;
         }
     }
 }

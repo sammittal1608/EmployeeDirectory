@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository.Interface;
@@ -19,10 +20,11 @@ namespace EmployeeDirectory.API.Controllers
             _employeeService = employeeService;
         }
 
+        [Authorize]
         [HttpGet("{EmployeeId}")]
         public async Task<ActionResult<Employee>> Get(int EmployeeId)
         {
-            var employee = await _employeeService.GetEmployeeById(EmployeeId);
+            Employee employee = await _employeeService.GetEmployeeById(EmployeeId);
             if (employee == null)
             {
                 return NotFound();
@@ -30,6 +32,7 @@ namespace EmployeeDirectory.API.Controllers
             return Ok(employee);
         }
 
+        
         [HttpGet("")]
         public async Task<ActionResult<IEnumerable<Employee>>> GetAll()
         {
@@ -37,17 +40,19 @@ namespace EmployeeDirectory.API.Controllers
             return Ok(employees);
         }
 
+        [Authorize]
         [HttpPost("")]
         public async Task<ActionResult<Employee>> Add(Employee employee)
         {
-            var addedEmployee =  _employeeService.AddEmployee(employee);
-            return CreatedAtAction(nameof(Get), new { EmployeeId = addedEmployee.Id }, addedEmployee);
+            Employee addedEmployee = await _employeeService.AddEmployee(employee);
+            return addedEmployee;
         }
 
+        [Authorize]
         [HttpPut("{EmployeeId}")]
-        public async Task<ActionResult<Employee>> Update(int EmployeeId, Employee employee)
+        public async Task<ActionResult<Employee>> Update(int employeeId, Employee employee)
         {
-            var existingEmployee = await _employeeService.GetEmployeeById(EmployeeId);
+            var existingEmployee = await _employeeService.GetEmployeeById(employeeId);
             if (existingEmployee == null)
             {
                 return NotFound();
@@ -56,7 +61,8 @@ namespace EmployeeDirectory.API.Controllers
             return updatedEmployee;
         }
 
-        [HttpDelete("{EmployeeId}")]
+        [Authorize]
+        [HttpDelete("DeleteEmployee")]
         public async Task<ActionResult<Employee>> Delete(int EmployeeId)
         {
             var existingEmployee = await _employeeService.DeleteEmployee(EmployeeId);

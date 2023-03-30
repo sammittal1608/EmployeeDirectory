@@ -21,7 +21,7 @@ namespace Models.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Model.Department", b =>
+            modelBuilder.Entity("Models.DBModels.DBDepartment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,7 +38,7 @@ namespace Models.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("Model.Employee", b =>
+            modelBuilder.Entity("Models.DBModels.DBEmployee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,16 +49,16 @@ namespace Models.Migrations
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("EmailAdress")
-                        .IsRequired()
+                    b.Property<string>("EmailAddress")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("JobTitleId")
-                        .HasColumnType("int");
+                    b.Property<string>("JobTitleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -82,14 +82,12 @@ namespace Models.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.HasIndex("JobTitleId");
-
                     b.HasIndex("OfficeId");
 
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("Model.JobTitle", b =>
+            modelBuilder.Entity("Models.DBModels.DBJobTitle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,7 +104,7 @@ namespace Models.Migrations
                     b.ToTable("JobTitles");
                 });
 
-            modelBuilder.Entity("Model.Office", b =>
+            modelBuilder.Entity("Models.DBModels.DBOffice", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -123,29 +121,55 @@ namespace Models.Migrations
                     b.ToTable("Offices");
                 });
 
-            modelBuilder.Entity("Model.Employee", b =>
+            modelBuilder.Entity("Models.Department", b =>
                 {
-                    b.HasOne("Model.Department", "Department")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Department");
+                });
+
+            modelBuilder.Entity("Models.Office", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Office");
+                });
+
+            modelBuilder.Entity("Models.DBModels.DBEmployee", b =>
+                {
+                    b.HasOne("Models.Department", "Department")
                         .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Model.JobTitle", "JobTitle")
-                        .WithMany()
-                        .HasForeignKey("JobTitleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Model.Office", "Office")
+                    b.HasOne("Models.Office", "Office")
                         .WithMany()
                         .HasForeignKey("OfficeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Department");
-
-                    b.Navigation("JobTitle");
 
                     b.Navigation("Office");
                 });

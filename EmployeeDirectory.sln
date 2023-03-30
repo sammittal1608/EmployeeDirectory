@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{7EEABCD7-C6F9-4B14-AF85-559F685F2B3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeDirectory.API", "EmployeeDirectory.API\EmployeeDirectory.API.csproj", "{145936EE-068B-4EDB-977D-093DBC02CFED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeDirectory.API", "EmployeeDirectory.API\EmployeeDirectory.API.csproj", "{145936EE-068B-4EDB-977D-093DBC02CFED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

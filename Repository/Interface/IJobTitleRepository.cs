@@ -1,4 +1,5 @@
 ﻿using Models;
+using Models.DBModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,9 @@ namespace Repository.Interface
 {
     public interface IJobTitleRepository
     {
-        public Task<JobTitle> Add(JobTitle jobTitle);
-        public Task<JobTitle> GetById(int JobTitleId);
-        public Task<List<JobTitle>> GetAll();
+        public Task<DBJobTitle> Add(DBJobTitle dbjobTitle);
+        public Task<DBJobTitle> GetById(int JobTitleId);
+        public Task<List<DBJobTitle>> GetAll();
+        
     }
 }

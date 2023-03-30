@@ -1,4 +1,5 @@
 ﻿using Models;
+using Models.DBModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace Repository.Interface
 {
     public interface IOfficeRepository
     {
-        public Task<Office> Add(Office office);
-        public Task<Office> GetById(int OfficeId);
-        public Task<List<Office>> GetAll();
+        public Task<DBOffice> Add(DBOffice office);
+        public Task<DBOffice> GetById(int OfficeId);
+        public Task<List<DBOffice>> GetAll();
     }
 }

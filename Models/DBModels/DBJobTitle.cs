@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models
+namespace Models.DBModels
 {
-    public class Office
+    public class DBJobTitle
     {
         public int Id { get; set; }
-        public string CountryName { get; set;}
+        public string Title { get; set; }
+
     }
 }

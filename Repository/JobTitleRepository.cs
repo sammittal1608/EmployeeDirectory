@@ -1,4 +1,6 @@
-﻿using Models;
+﻿using AutoMapper;
+using Models;
+using Models.DBModels;
 using Repository.Interface;
 using System;
 using System.Collections.Generic;
@@ -11,23 +13,31 @@ namespace Repository
     public class JobTitleRepository :IJobTitleRepository
     {
         private readonly AppDbContext dbContext;
-        public JobTitleRepository(AppDbContext dbContext)
+        IMapper _mapper;
+        public JobTitleRepository(AppDbContext dbContext,IMapper mapper)
         {
             this.dbContext = dbContext;
+            _mapper = mapper;
         }
-        public async Task<JobTitle> Add(JobTitle jobTitle)
+        public async Task<DBJobTitle> Add(DBJobTitle jobTitle)
         {
             dbContext.JobTitles.Add(jobTitle);
             dbContext.SaveChanges();
+           
             return jobTitle;
         }
-        public async Task<List<JobTitle>> GetAll()
+        public async Task<List<DBJobTitle>> GetAll()
         {
-            return dbContext.JobTitles.ToList();
+            List<DBJobTitle> dBJobTitles= dbContext.JobTitles.ToList();
+           
+            return dBJobTitles;
         }
-        public async Task<JobTitle> GetById(int jobTitleId)
+        public async Task<DBJobTitle> GetById(int jobTitleId)
         {
-            return dbContext.JobTitles.Find(jobTitleId);
+
+                DBJobTitle dbJobTitle =dbContext.JobTitles.Find(jobTitleId);
+
+            return dbJobTitle;
         }
     }
 }

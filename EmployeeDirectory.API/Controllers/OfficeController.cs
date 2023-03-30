@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
@@ -19,6 +20,7 @@ namespace EmployeeDirectory.API.Controllers
             _officeService = officeService;
         }
 
+        [Authorize]
         [HttpGet("{OfficeId}")]
         public async Task<ActionResult<Office>> Get(int OfficeId)
         {
@@ -30,6 +32,7 @@ namespace EmployeeDirectory.API.Controllers
             return Ok(office);
         }
 
+        [Authorize]
         [HttpGet("")]
         public async Task<ActionResult<IEnumerable<Office>>> GetAll()
         {
@@ -37,11 +40,12 @@ namespace EmployeeDirectory.API.Controllers
             return Ok(office);
         }
 
+        [Authorize]
         [HttpPost("")]
         public async Task<ActionResult<Office>> Add(Office office)
         {
-               await _officeService.AddOffice(office);
-             return CreatedAtAction(nameof(Get), new { OfficeId = office.Id }, office);
+              var addedEmployee = await _officeService.AddOffice(office);
+            return addedEmployee;
         }
 
     }
