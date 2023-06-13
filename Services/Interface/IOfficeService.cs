@@ -10,8 +10,10 @@ namespace Services.Interface
 {
     public interface IOfficeService
     {
-        public Task<Office> AddOffice(Office office);
+        //public Task<Office> AddOffice(Office office);
         public Task<List<Office>> GetAllOffices();
-        public Task<Office> GetOfficeById(int id);
+        public Task<Office> GetOfficeById(string id);
+        public Task<bool> UpdateOfficeCount( string newOfficeId, string oldOfficeId = null);
+        //public void UpdateOffice(Office oldOffice, Office newOffice);
     }
 }

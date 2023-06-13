@@ -9,7 +9,8 @@ namespace Models
 {
     public class Office
     {
-        public int Id { get; set; }
-        public string CountryName { get; set;}
+        public string Id { get; set; }
+        public string Name { get; set;}
+        public int Count { get; set; }
     }
 }

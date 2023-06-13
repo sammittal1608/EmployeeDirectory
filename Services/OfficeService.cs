@@ -37,11 +37,25 @@ namespace Services
         }
 
 
-        public async Task<Office> GetOfficeById(int id)
+        public async Task<Office> GetOfficeById(string id)
         {
-                DBOffice dbOffice =await _officeRepository.GetById(id);
+            DBOffice dbOffice =await _officeRepository.GetById(id);
             var office = _mapper.Map<Office>(dbOffice);
             return office;
+        }
+        public async Task<bool> UpdateOfficeCount(string newOfficeId, string oldOfficeId = null)
+        {
+            DBOffice dbNewOffice = await this._officeRepository.GetById(newOfficeId);
+            dbNewOffice.Count++;
+            await _officeRepository.Update(dbNewOffice);
+
+            if (oldOfficeId != null)
+            {
+                DBOffice dbOldOffice = await this._officeRepository.GetById(oldOfficeId);
+                dbOldOffice.Count--;
+                await _officeRepository.Update(dbOldOffice);
+            }
+            return true;
         }
     }
 }

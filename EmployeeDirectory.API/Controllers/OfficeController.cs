@@ -20,9 +20,9 @@ namespace EmployeeDirectory.API.Controllers
             _officeService = officeService;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{OfficeId}")]
-        public async Task<ActionResult<Office>> Get(int OfficeId)
+        public async Task<ActionResult<Office>> Get(string OfficeId)
         {
             var office = await _officeService.GetOfficeById(OfficeId);
             if (office == null)
@@ -32,7 +32,7 @@ namespace EmployeeDirectory.API.Controllers
             return Ok(office);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("")]
         public async Task<ActionResult<IEnumerable<Office>>> GetAll()
         {
@@ -40,13 +40,13 @@ namespace EmployeeDirectory.API.Controllers
             return Ok(office);
         }
 
-        [Authorize]
-        [HttpPost("")]
-        public async Task<ActionResult<Office>> Add(Office office)
-        {
-              var addedEmployee = await _officeService.AddOffice(office);
-            return addedEmployee;
-        }
+        //[Authorize]
+        //[HttpPost("")]
+        //public async Task<ActionResult<Office>> Add(Office office)
+        //{
+        //      var addedEmployee = await _officeService.AddOffice(office);
+        //    return addedEmployee;
+        //}
 
     }
 }

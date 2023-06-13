@@ -26,11 +26,25 @@ namespace Repository
             return dbDepartments;
         }
 
-        public async Task<DBDepartment> GetById(int DepartmentId)
+        public async Task<DBDepartment> GetById(string DepartmentId)
         {
             DBDepartment dbDepartment = await dbContext.Departments.FindAsync(DepartmentId);
            
-            return dbDepartment;    
+            return dbDepartment;
         }
+        public async Task Update(DBDepartment dbDepartmentChanges)
+        {
+            try
+            {
+                var dbDepartment = dbContext.Departments.Attach(dbDepartmentChanges);
+                dbDepartment.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while updating the department: " + ex.Message);
+            }
+        }
+
     }
 }

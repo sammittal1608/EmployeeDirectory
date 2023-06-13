@@ -3,7 +3,6 @@ using Repository.Interface;
 using Services.Interface;
 using Models.DBModels;
 using AutoMapper;
-using Repository;
 
 namespace Services
 {
@@ -16,16 +15,10 @@ namespace Services
             _departmentRepository= departmentRepository;
             _mapper = mapper;
         }
-        public async Task<Department> AddDepartment(Department department)
-        {
-            var dbDepartment = _mapper.Map<DBDepartment>(department);
-            dbDepartment = await _departmentRepository.Add(dbDepartment);
-          //  var departments = _mapper.Map<Department>(dbDepartment);
-            return department;
-        }
-        public async Task<Department> GetDepartmentById(int id)
+
+        public async Task<Department> GetDepartmentById(string id)
         { 
-                DBDepartment dbDepartment = await _departmentRepository.GetById(id);
+            DBDepartment dbDepartment = await _departmentRepository.GetById(id);    
             var department = _mapper.Map<Department>(dbDepartment);
             return department;
         }
@@ -35,7 +28,20 @@ namespace Services
             List<Department> departments = dbDepartments.Select(dbDepartment => _mapper.Map<Department>(dbDepartment)).ToList();
             return departments;
         }
+        public async Task<bool> UpdateDepartmentCount(string newDepartmentId,string oldDepartmentId = null )
+        {
+            DBDepartment dbNewDepartment = await this._departmentRepository.GetById(newDepartmentId);
+             dbNewDepartment.Count++;
+            await _departmentRepository.Update(dbNewDepartment);
 
+            if (oldDepartmentId!=null)
+            {
+                DBDepartment dbOldDepartment = await this._departmentRepository.GetById(oldDepartmentId);
+                dbOldDepartment.Count--;
+                await _departmentRepository.Update(dbOldDepartment);
+            }
 
+            return true;
+        }
     }
 }

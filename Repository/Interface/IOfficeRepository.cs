@@ -11,7 +11,8 @@ namespace Repository.Interface
     public interface IOfficeRepository
     {
         public Task<DBOffice> Add(DBOffice office);
-        public Task<DBOffice> GetById(int OfficeId);
+        public Task<DBOffice> GetById(string OfficeId);
         public Task<List<DBOffice>> GetAll();
+        public Task Update(DBOffice dbOffice);
     }
 }

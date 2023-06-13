@@ -18,9 +18,13 @@ namespace EmployeeDirectory.API.Helper
             .ForMember(s => s.Id, o => o.MapFrom(d => d.Id))
             .ReverseMap();
             // CreateMap<List<Department>,List<Department>>().ReverseMap();
-            CreateMap<JobTitle, DBJobTitle>().ReverseMap();
+            CreateMap<JobTitle, DBJobTitle>()
+                .ForMember(s => s.Title, o => o.MapFrom(d => d.Name))
+                .ReverseMap();
             // CreateMap<List<JobTitle>,List<JobTitle>>().ReverseMap();
-            CreateMap<Office, DBOffice>().ReverseMap();
+            CreateMap<Office, DBOffice>()
+                .ForMember(s => s.CountryName, o => o.MapFrom(d => d.Name))
+                .ReverseMap();
             // CreateMap<List<Office>,List<Office>>().ReverseMap();    
         }
     }

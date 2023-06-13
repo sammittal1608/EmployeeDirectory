@@ -20,9 +20,9 @@ namespace EmployeeDirectory.API.Controllers
             _employeeService = employeeService;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{EmployeeId}")]
-        public async Task<ActionResult<Employee>> Get(int EmployeeId)
+        public async Task<ActionResult<Employee>> Get(string  EmployeeId)
         {
             Employee employee = await _employeeService.GetEmployeeById(EmployeeId);
             if (employee == null)
@@ -35,12 +35,13 @@ namespace EmployeeDirectory.API.Controllers
         
         [HttpGet("")]
         public async Task<ActionResult<IEnumerable<Employee>>> GetAll()
+        
         {
             var employees = await _employeeService.GetAllEmployees();
             return Ok(employees);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost("")]
         public async Task<ActionResult<Employee>> Add(Employee employee)
         {
@@ -48,22 +49,22 @@ namespace EmployeeDirectory.API.Controllers
             return addedEmployee;
         }
 
-        [Authorize]
-        [HttpPut("{EmployeeId}")]
-        public async Task<ActionResult<Employee>> Update(int employeeId, Employee employee)
+        //[Authorize]
+        [HttpPut("")]
+        public async Task<ActionResult<Employee>> Update(Employee employee)
         {
-            var existingEmployee = await _employeeService.GetEmployeeById(employeeId);
-            if (existingEmployee == null)
-            {
-                return NotFound();
-            }
+            //var existingEmployee = await _employeeService.GetEmployeeById(employeeId);
+            //if (existingEmployee == null)
+            //{
+            //    return NotFound();
+            //}
             var updatedEmployee = await _employeeService.UpdateEmployee(employee);
             return updatedEmployee;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpDelete("DeleteEmployee")]
-        public async Task<ActionResult<Employee>> Delete(int EmployeeId)
+        public async Task<ActionResult<Employee>> Delete(string EmployeeId)
         {
             var existingEmployee = await _employeeService.DeleteEmployee(EmployeeId);
             if (existingEmployee == null)

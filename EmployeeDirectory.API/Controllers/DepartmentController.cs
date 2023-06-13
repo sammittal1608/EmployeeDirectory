@@ -19,7 +19,7 @@ namespace EmployeeDirectory.API.Controllers
         }
 
         [HttpGet("{DepartmentId}")]
-        public async Task<ActionResult<Department>> Get(int DepartmentId)
+        public async Task<ActionResult<Department>> Get(string DepartmentId)
         {
             var department = await _departmentService.GetDepartmentById(DepartmentId);
             if (department == null)
@@ -35,12 +35,12 @@ namespace EmployeeDirectory.API.Controllers
             var departments = await _departmentService.GetAllDepartments();
             return Ok(departments);
         }
-        [Authorize]
-        [HttpPost("")]
-        public async Task<ActionResult<Department>> Add(Department department)
-        {
-            var addedDepartment = await _departmentService.AddDepartment(department);
-            return addedDepartment;
-        }
+        //[Authorize]
+        //[HttpPost("")]
+        //public async Task<ActionResult<Department>> Add(Department department)
+        //{
+        //    var addedDepartment = await _departmentService.AddDepartment(department);
+        //    return addedDepartment;
+        //}
     }
 }

@@ -32,12 +32,17 @@ namespace Repository
            
             return dBJobTitles;
         }
-        public async Task<DBJobTitle> GetById(int jobTitleId)
+        public async Task<DBJobTitle> GetById(string jobTitleId)
         {
-
+            
                 DBJobTitle dbJobTitle =dbContext.JobTitles.Find(jobTitleId);
 
             return dbJobTitle;
+        }
+        public async Task Update(DBJobTitle dbJobTitleChanges)
+        {
+            var dbJobTitle = dbContext.JobTitles.Attach(dbJobTitleChanges);
+            dbJobTitle.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
     }
 }

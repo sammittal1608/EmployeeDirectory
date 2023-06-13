@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Models.DBModels;
 using Models;
+using Models.DBModels;
 using Repository.Interface;
 using Services.Interface;
 
@@ -30,12 +30,25 @@ public class JobTitleService : IJobTitleService
         return jobTitles;
     }
 
-
-
-    public async Task<JobTitle> GetJobTitleById(int id)
+    public async Task<JobTitle> GetJobTitleById(string id)
     {
         var dbJobTitle = await _jobTitleRepository.GetById(id);
         var jobTitle = _mapper.Map<JobTitle>(dbJobTitle);
         return jobTitle;
+    }
+
+    public async Task<bool> UpdateJobTitleCount(string newJobTitleId, string oldJobTitleId = null)
+    {
+        DBJobTitle dbNewJobTitle = await this._jobTitleRepository.GetById(newJobTitleId);
+        dbNewJobTitle.Count++;
+        await _jobTitleRepository.Update(dbNewJobTitle);
+
+        if (oldJobTitleId != null)
+        {
+            DBJobTitle dbOldJobTitle = await this._jobTitleRepository.GetById(oldJobTitleId);
+            dbOldJobTitle.Count--;
+            await _jobTitleRepository.Update(dbOldJobTitle);
+        }
+        return true;
     }
 }

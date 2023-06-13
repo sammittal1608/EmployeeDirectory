@@ -24,7 +24,7 @@ namespace Repository
         public async Task<DBOffice> Add(DBOffice dbOffice)
         {
             dbContext.Offices.Add(dbOffice);
-            dbContext.SaveChanges();
+            //dbContext.SaveChanges();
 
             return dbOffice;
         }
@@ -34,12 +34,21 @@ namespace Repository
             
             return dbOffices;
         }
-        public async Task<DBOffice> GetById(int officeId)
+        public async Task<DBOffice> GetById(string officeId)
         {
-
-                DBOffice dbOffice = dbContext.Offices.Find(officeId);
-          
+            DBOffice dbOffice = dbContext.Offices.Find(officeId);
             return dbOffice;
+        }
+        public async Task Update(DBOffice dbOfficeChanges)
+        {
+            try {
+                var dbOffice = dbContext.Offices.Attach(dbOfficeChanges);
+                dbOffice.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occurred while updating the Office: " + ex.Message);
+            }
         }
     }
 }

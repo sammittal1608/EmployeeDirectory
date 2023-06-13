@@ -12,7 +12,7 @@ namespace Repository.Interface
     {
         public Task<DBEmployee> Add(DBEmployee dbEmployee);
         public Task<DBEmployee> Update(DBEmployee dbEmployee);
-        public Task<DBEmployee> GetById(int employeedId);
+        public Task<DBEmployee> GetById(string employeedId);
         public Task<List<DBEmployee>> GetAll();
         public Task<DBEmployee> DeleteById(DBEmployee dBEmployee);
         

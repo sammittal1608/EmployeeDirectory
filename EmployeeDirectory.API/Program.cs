@@ -21,6 +21,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(cors => cors.AddPolicy("MyPolicy", policy =>
+{
+    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+}));
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IJobTitleRepository, JobTitleRepository>();
@@ -29,6 +33,7 @@ builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IJobTitleService, JobTitleService>();
 builder.Services.AddScoped<IOfficeService, OfficeService>();
+IServiceCollection serviceCollection = builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer("Data Source=Tl216;Initial Catalog=Employees;Integrated Security=True;TrustServerCertificate=True"));
 var mapperConfig = new MapperConfiguration(mc =>
 {
@@ -74,6 +79,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("MyPolicy");
 
 app.UseAuthorization();
 app.UseAuthentication();
@@ -81,6 +87,7 @@ app.UseAuthentication();
 app.MapControllers();
 
 app.Run();
+
 
 
 

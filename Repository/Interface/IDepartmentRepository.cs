@@ -12,9 +12,10 @@ namespace Repository.Interface
     public interface IDepartmentRepository
     {
         public Task<DBDepartment> Add(DBDepartment dbDepartment);
-        public Task<DBDepartment> GetById(int DepartmentId);
+        public Task<DBDepartment> GetById(string DepartmentId);
 
         public Task<List<DBDepartment>> GetAll();
+        public Task Update(DBDepartment dbDepartment);
         
     }
 }

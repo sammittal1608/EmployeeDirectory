@@ -16,11 +16,15 @@ namespace Repository
         }
         public async Task<DBEmployee> Add(DBEmployee dbEmployee)
         {
-
-            await dbContext.Employees.AddAsync(dbEmployee);
-            dbContext.SaveChanges();
-
-            return dbEmployee;
+            try
+            {
+                await dbContext.Employees.AddAsync(dbEmployee);
+                return dbEmployee;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<DBEmployee> DeleteById(DBEmployee dbEmployee)
@@ -42,7 +46,7 @@ namespace Repository
             return dbEmployees;
         }
 
-        public async Task<DBEmployee> GetById(int EmployeedId)
+        public async Task<DBEmployee> GetById(string EmployeedId)
         {
             DBEmployee dbEmployee = await dbContext.Employees.FindAsync(EmployeedId);
             
@@ -50,10 +54,11 @@ namespace Repository
         }
         public async Task<DBEmployee> Update(DBEmployee dbemployeeChanges)
         {
-            var dbEmployee =  dbContext.Employees.Attach(dbemployeeChanges);
-           dbEmployee.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            dbContext.SaveChanges();
+            var dbEmployee = dbContext.Employees.Attach(dbemployeeChanges);
+            dbEmployee.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
             return dbemployeeChanges;
         }
+
     }
 }
